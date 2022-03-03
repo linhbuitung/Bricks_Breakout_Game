@@ -1,0 +1,84 @@
+body {
+	background-color: aqua;
+	font-family: "Courier New", Courier, monospace;
+}
+
+#title {
+	font-weight: bolder;
+	text-align: center;
+	font-size: 3rem;
+}
+
+#playground {
+	position: relative;
+	background-color: #ffffff;
+	margin: auto;
+	padding: 0;
+	width: 800px;
+	height: 600px;
+	border-radius: 5%;
+}
+
+.brick {
+	width: 50px;
+	height: 30px;
+	background-color: brown;
+	padding: 0 10px;
+	display: inline-block;
+	position: relative;
+	visibility: visible;
+}
+
+.brick-row {
+	padding: 15px 45px 2px;
+}
+
+#ball {
+	position: absolute;
+	left: 0;
+	right: 0;
+	width: 20px;
+	height: 20px;
+	margin-top: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 100%;
+	background-color: red;
+	text-align: center;
+}
+#paddle {
+	position: absolute;
+	background-color: blue;
+	width: 90px;
+	height: 15px;
+	bottom: 25px;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	text-align: center;
+}
+@media screen and (max-width: 1024px) {
+	#playground {
+		margin: 0 1%;
+		height: 99vh;
+	}
+}
+
+#reset-button {
+	width: 100px;
+	height: 50px;
+	font-size: large;
+	border-radius: 10%;
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	margin-top: 300px;
+	display: none;
+}
+
+#scoreboard {
+	display: block;
+	margin-left: 70%;
+	font-size: large;
+}
