@@ -64,12 +64,12 @@ function movementConvertMobile(event) {
 		playground.addEventListener("touchstart", function (event) {
 			touchPos =
 				event.touches[0].clientX - (screen.width - playground.offsetWidth) / 2;
-			movePaddleByTouch(-280, 280, touchPos);
+			movePaddleByTouch(-270, 270, touchPos);
 		});
 		playground.addEventListener("touchmove", function (event) {
 			touchPos =
 				event.touches[0].clientX - (screen.width - playground.offsetWidth) / 2;
-			movePaddleByTouch(-280, 280, touchPos);
+			movePaddleByTouch(-270, 270, touchPos);
 		});
 	} else {
 		setInterval(function () {
