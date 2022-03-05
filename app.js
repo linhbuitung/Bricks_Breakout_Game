@@ -53,7 +53,7 @@ movementConvertMobile(checkMobile);
 function movementConvertMobile(event) {
 	if (event.matches) {
 		setInterval(function () {
-			onCollideWall(160, -250, -280, 280);
+			onCollideWall(160, -250, -320, 320);
 		}, 1);
 		setInterval(function () {
 			onCollidePaddle(140, 145);
