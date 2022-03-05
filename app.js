@@ -53,11 +53,24 @@ movementConvertMobile(checkMobile);
 function movementConvertMobile(event) {
 	if (event.matches) {
 		setInterval(function () {
-			onCollideWall(160, -250, -270, 270);
+			onCollideWall(160, -250, -280, 280);
 		}, 1);
 		setInterval(function () {
 			onCollidePaddle(140, 145);
 		}, 1);
+
+		//Touch control
+		const playground = document.getElementById("playground");
+		playground.addEventListener("touchstart", function (event) {
+			touchPos =
+				event.touches[0].clientX - (screen.width - playground.offsetWidth) / 2;
+			movePaddleByTouch(-280, 280, touchPos);
+		});
+		playground.addEventListener("touchmove", function (event) {
+			touchPos =
+				event.touches[0].clientX - (screen.width - playground.offsetWidth) / 2;
+			movePaddleByTouch(-280, 280, touchPos);
+		});
 	} else {
 		setInterval(function () {
 			movePaddle(-710, 710);
@@ -194,6 +207,21 @@ function movePaddle(paddleLeft, paddleRight) {
 		paddle.style.left = currentXPos + "px";
 	}
 }
+
+//move paddle by touch position
+function movePaddleByTouch(paddleLeft, paddleRight, touchPositionX) {
+	let touchPos = (touchPositionX - playground.offsetWidth / 2) * 2;
+	const paddle = document.getElementById("paddle");
+	paddle.style.left = touchPos + "px";
+	let currentXPos = parseInt(getComputedStyle(paddle).left);
+	if (currentXPos < paddleLeft) {
+		paddle.style.left = paddleLeft + "px";
+	} else if (currentXPos > paddleRight) {
+		paddle.style.left = paddleRight + "px";
+	} else {
+	}
+	console.log(touchPos);
+}
 //Collide with wall
 function onCollideWall(
 	playgroundBottom,
@@ -239,9 +267,5 @@ function onCollidePaddle(paddleTop, paddleBottom) {
 	}
 }
 
-//Touch control
-document.addEventListener("touchstart", function () {
-	score += 10000;
-});
-document.addEventListener("touchmove", handleMove);
-document.addEventListener("touchend", handleEnd);
+// document.addEventListener("touchmove", handleMove);
+// document.addEventListener("touchend", handleEnd);

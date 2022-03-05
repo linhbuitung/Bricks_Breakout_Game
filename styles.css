@@ -83,10 +83,11 @@ body {
 	font-size: large;
 }
 
-@media screen and (max-width: 414px) and (max-height: 896px) {
+@media screen and (max-width: 414px), (max-height: 900px) {
 	#title {
 		font-weight: bold;
 		font-size: 1.5rem;
+		touch-action: none;
 	}
 	#scoreboard {
 		margin: auto;
@@ -94,11 +95,13 @@ body {
 		display: block;
 		font-size: 1rem;
 		margin-bottom: 10px;
+		touch-action: none;
 	}
 	#playground {
 		margin: auto;
-		width: 280px;
+		width: 320px;
 		height: 420px;
+		touch-action: none;
 	}
 	.brick-row {
 		text-align: center;
