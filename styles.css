@@ -82,3 +82,51 @@ body {
 	margin-left: 70%;
 	font-size: large;
 }
+
+@media screen and (max-width: 414px) and (max-height: 896px) {
+	#title {
+		font-weight: bold;
+		font-size: 1.5rem;
+	}
+	#scoreboard {
+		margin: auto;
+		text-align: center;
+		display: block;
+		font-size: 1rem;
+		margin-bottom: 10px;
+	}
+	#playground {
+		margin: auto;
+		width: 280px;
+		height: 420px;
+	}
+	.brick-row {
+		text-align: center;
+		padding: 3px 19px 2px;
+	}
+	.brick {
+		width: 12px;
+		height: 10px;
+	}
+	.brick-remove-for-phone {
+		visibility: hidden;
+		display: none;
+	}
+	#paddle {
+		width: 40px;
+		height: 10px;
+	}
+
+	#ball {
+		width: 10px;
+		height: 10px;
+		margin-top: 250px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	#reset-button {
+		width: 70px;
+		height: 25px;
+		font-size: medium;
+	}
+}

@@ -43,24 +43,31 @@ function deleteKeyUpValue(key) {
 	}
 }
 
-//this is movement function
-setInterval(movePaddle, 1);
-function movePaddle() {
-	const paddle = document.getElementById("paddle");
-	let currentXPos = parseInt(getComputedStyle(paddle).left);
-	const moveSpeed = 8;
-	if (
-		keyPressed[0] === "ArrowLeft" ||
-		(keyPressed[0] === "a" && currentXPos > -710)
-	) {
-		currentXPos -= moveSpeed;
-		paddle.style.left = currentXPos + "px";
-	} else if (
-		keyPressed[0] === "ArrowRight" ||
-		(keyPressed[0] === "d" && currentXPos < 710)
-	) {
-		currentXPos += moveSpeed;
-		paddle.style.left = currentXPos + "px";
+//FOR RESPONSIVE
+
+let checkMobile = window.matchMedia(
+	"screen and (max-width: 414px) and (max-height: 896px)"
+);
+movementConvertMobile(checkMobile);
+
+function movementConvertMobile(event) {
+	if (event.matches) {
+		setInterval(function () {
+			onCollideWall(160, -250, -270, 270);
+		}, 1);
+		setInterval(function () {
+			onCollidePaddle(140, 145);
+		}, 1);
+	} else {
+		setInterval(function () {
+			movePaddle(-710, 710);
+		}, 1);
+		setInterval(function () {
+			onCollideWall(180, -400, -780, 780);
+		}, 1);
+		setInterval(function () {
+			onCollidePaddle(160, 165);
+		}, 1);
 	}
 }
 
@@ -72,9 +79,6 @@ let initialSpeedY = 2;
 let movementSpeedAxisX = initialSpeedX;
 let movementSpeedAxisY = -initialSpeedY;
 const ballMove = setInterval(ballMovement, 1);
-setInterval(onCollideWall, 1);
-setInterval(onCollidePaddle, 1);
-
 function ballMovement() {
 	const ball = document.getElementById("ball");
 	let ballPosY = parseInt(getComputedStyle(ball).top) + movementSpeedAxisY;
@@ -83,54 +87,20 @@ function ballMovement() {
 	ball.style.left = ballposX + "px";
 }
 
-//Collide with wall
-function onCollideWall() {
-	let ballPosY = parseInt(getComputedStyle(ball).top);
-	let ballposX = parseInt(getComputedStyle(ball).left);
-	if (ballPosY > 180) {
-		movementSpeedAxisY = -initialSpeedY;
-		// die
-		const resetButton = document.getElementById("reset-button");
-		resetButton.style.display = "block";
-		window.clearInterval(ballMove);
-	}
-	if (ballPosY < -400) {
-		movementSpeedAxisY = initialSpeedY;
-	}
-	if (ballposX < -780) {
-		movementSpeedAxisX = initialSpeedX;
-	}
-	if (ballposX > 780) {
-		movementSpeedAxisX = -initialSpeedX;
-	}
-}
-
-//Hit the paddle
-function onCollidePaddle() {
-	const ball = document.getElementById("ball");
-	const paddle = document.getElementById("paddle");
-	let ballPosY = parseInt(getComputedStyle(ball).top);
-	let ballHeight = ballPosY + 20;
-	if (
-		ball.offsetLeft + 10 >= paddle.offsetLeft &&
-		ball.offsetLeft + 10 <= paddle.offsetLeft + 90 &&
-		ballHeight > 160 &&
-		ballHeight < 165
-	) {
-		movementSpeedAxisY = -initialSpeedY;
-		changeSpeed(ball, paddle);
-	}
-}
 //change speed depends on what place in the paddle hit
 function changeSpeed(ball, paddle) {
 	if (
-		ball.offsetLeft + 10 < paddle.offsetLeft + 30 ||
-		ball.offsetLeft + 10 > paddle.offsetLeft + 60
+		ball.offsetLeft + ball.offsetWidth / 2 <
+			paddle.offsetLeft + paddle.offsetWidth / 3 ||
+		ball.offsetLeft + ball.offsetWidth / 2 >
+			paddle.offsetLeft + (paddle.offsetWidth * 2) / 3
 	) {
 		initialSpeedX += 0.3;
 	} else if (
-		ball.offsetLeft + 10 >= paddle.offsetLeft + 30 &&
-		ball.offsetLeft + 10 <= paddle.offsetLeft + 60
+		ball.offsetLeft + ball.offsetWidth / 2 >=
+			paddle.offsetLeft + paddle.offsetWidth / 3 &&
+		ball.offsetLeft + ball.offsetWidth / 2 <=
+			paddle.offsetLeft + (paddle.offsetWidth * 2) / 3
 	) {
 		initialSpeedX -= 0.2;
 	}
@@ -156,25 +126,34 @@ function checkBrickCollider() {
 	for (let i = 0; i < brickList.length; i++) {
 		if (
 			brickList[i].style.visibility != "hidden" &&
-			((ball.offsetTop + 20 > brickList[i].offsetTop &&
+			((ball.offsetTop + ball.offsetHeight > brickList[i].offsetTop &&
 				ball.offsetTop < brickList[i].offsetTop) ||
-				(ball.offsetTop < brickList[i].offsetTop + 30 &&
-					ball.offsetTop + 20 > brickList[i].offsetTop))
+				(ball.offsetTop < brickList[i].offsetTop + brickList[i].offsetHeight &&
+					ball.offsetTop + ball.offsetHeight > brickList[i].offsetTop))
 		) {
 			if (
-				ball.offsetLeft + 20 > brickList[i].offsetLeft &&
-				ball.offsetLeft < brickList[i].offsetLeft + 70
+				ball.offsetLeft + ball.offsetWidth > brickList[i].offsetLeft &&
+				ball.offsetLeft < brickList[i].offsetLeft + brickList[i].offsetWidth
 			) {
-				if (ball.offsetLeft + 20 > brickList[i].offsetLeft) {
-					if (brickList[i].offsetLeft > ball.offsetLeft + 10) {
+				if (ball.offsetLeft + ball.offsetWidth > brickList[i].offsetLeft) {
+					if (
+						brickList[i].offsetLeft >
+						ball.offsetLeft + ball.offsetWidth / 2
+					) {
 						movementSpeedAxisX = -initialSpeedX;
 					} else {
 						movementSpeedAxisY = initialSpeedY;
 					}
 					brickList[i].style.visibility = "hidden";
 				}
-				if (ball.offsetLeft < brickList[i].offsetLeft + 70) {
-					if (brickList[i].offsetLeft + 70 < ball.offsetLeft + 10) {
+				if (
+					ball.offsetLeft <
+					brickList[i].offsetLeft + brickList[i].offsetWidth
+				) {
+					if (
+						brickList[i].offsetLeft + brickList[i].offsetWidth <
+						ball.offsetLeft + ball.offsetWidth / 2
+					) {
 						movementSpeedAxisX = initialSpeedX;
 					} else {
 						movementSpeedAxisY = initialSpeedY;
@@ -194,3 +173,75 @@ function setScore() {
 	scoreSheet = document.getElementById("scoreboard");
 	scoreSheet.innerHTML = "Score: " + score;
 }
+
+//this is movement function
+function movePaddle(paddleLeft, paddleRight) {
+	const paddle = document.getElementById("paddle");
+	let currentXPos = parseInt(getComputedStyle(paddle).left);
+	const moveSpeed = 8;
+	if (
+		keyPressed[0] === "ArrowLeft" ||
+		(keyPressed[0] === "a" && currentXPos > paddleLeft)
+	) {
+		currentXPos -= moveSpeed;
+
+		paddle.style.left = currentXPos + "px";
+	} else if (
+		keyPressed[0] === "ArrowRight" ||
+		(keyPressed[0] === "d" && currentXPos < paddleRight)
+	) {
+		currentXPos += moveSpeed;
+		paddle.style.left = currentXPos + "px";
+	}
+}
+//Collide with wall
+function onCollideWall(
+	playgroundBottom,
+	playgroundTop,
+	playgroundLeft,
+	playgroundRight
+) {
+	let ballPosY = parseInt(getComputedStyle(ball).top);
+	let ballposX = parseInt(getComputedStyle(ball).left);
+	if (ballPosY > playgroundBottom) {
+		movementSpeedAxisY = -initialSpeedY;
+		// die
+		const resetButton = document.getElementById("reset-button");
+		resetButton.style.display = "block";
+		window.clearInterval(ballMove);
+	}
+	if (ballPosY < playgroundTop) {
+		movementSpeedAxisY = initialSpeedY;
+	}
+	if (ballposX < playgroundLeft) {
+		movementSpeedAxisX = initialSpeedX;
+	}
+	if (ballposX > playgroundRight) {
+		movementSpeedAxisX = -initialSpeedX;
+	}
+}
+
+//Hit the paddle
+function onCollidePaddle(paddleTop, paddleBottom) {
+	const ball = document.getElementById("ball");
+	const paddle = document.getElementById("paddle");
+	let ballPosY = parseInt(getComputedStyle(ball).top);
+	let ballHeight = ballPosY + ball.offsetHeight;
+	if (
+		ball.offsetLeft + ball.offsetWidth / 2 >= paddle.offsetLeft &&
+		ball.offsetLeft + ball.offsetWidth / 2 <=
+			paddle.offsetLeft + paddle.offsetWidth &&
+		ballHeight > paddleTop &&
+		ballHeight < paddleBottom
+	) {
+		movementSpeedAxisY = -initialSpeedY;
+		changeSpeed(ball, paddle);
+	}
+}
+
+//Touch control
+document.addEventListener("touchstart", function () {
+	score += 10000;
+});
+document.addEventListener("touchmove", handleMove);
+document.addEventListener("touchend", handleEnd);
