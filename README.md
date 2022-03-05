@@ -1,2 +1,3 @@
 # Bricks_Breakout_Game
-My Web game
+This is my Bricks_breakout game which I'm making to improve my JavaScript skills,.
+
