@@ -83,7 +83,7 @@ body {
 	font-size: large;
 }
 
-@media screen and (max-width: 414px), (max-height: 900px) {
+@media screen and (max-width: 414px) or (max-height: 900px) {
 	#title {
 		font-weight: bold;
 		font-size: 1.5rem;
@@ -106,14 +106,17 @@ body {
 	.brick-row {
 		text-align: center;
 		padding: 3px 19px 2px;
+		touch-action: none;
 	}
 	.brick {
 		width: 12px;
 		height: 10px;
+		touch-action: none;
 	}
 	.brick-remove-for-phone {
 		visibility: hidden;
 		display: none;
+		touch-action: none;
 	}
 	#paddle {
 		width: 50px;
@@ -126,6 +129,7 @@ body {
 		margin-top: 250px;
 		margin-left: auto;
 		margin-right: auto;
+		touch-action: none;
 	}
 	#reset-button {
 		width: 70px;

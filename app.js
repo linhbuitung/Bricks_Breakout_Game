@@ -267,5 +267,6 @@ function onCollidePaddle(paddleTop, paddleBottom) {
 	}
 }
 
-// document.addEventListener("touchmove", handleMove);
-// document.addEventListener("touchend", handleEnd);
+//Play audio
+// var audio = new Audio("audio_file.mp3");
+// audio.play();
